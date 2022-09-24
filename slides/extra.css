@@ -1,0 +1,36 @@
+/* Extra CSS */
+
+/* make code and slide scrollable */
+.scrollable {
+  height: 80%;
+  overflow-y: auto;
+} 
+
+/* adjust portait-like image size */
+.container {
+  height: 1410px;
+  width: 526px;
+}
+
+/* adjust square image size */
+.fit {
+  height: 200px;
+  width: 400px;
+}
+
+/* adjust square image size */
+.container2 {
+  height: 500px;
+  width: 250px;
+}
+
+.red { color: red; }
+
+.spoiler{ 
+  color: black; 
+  background-color:black;
+}
+
+.spoiler:hover{
+  color: white;
+}

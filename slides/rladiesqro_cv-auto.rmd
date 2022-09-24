@@ -1,0 +1,201 @@
+---
+title: "Haz tu CV automatizado en R Markdown"
+subtitle: "RLadies Querétaro"
+author: "Mónica Padilla"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [xaringan-themer.css, extra.css] # theme; logo, img size
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true # use #<<
+      navigation:
+        scroll: false # disable transitions by scrolling
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+#install.packages("xaringanthemer")
+library(xaringanthemer)
+style_mono_accent(
+  base_color = "#43418A",
+  header_font_google = google_font("Fredoka","300"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono")
+)
+#style_extra_css(css = extra_css, outfile = "extra.css")
+```
+
+# RLadies
+
+### **Tercer Encuentro Anual de R-Ladies México**
+
+.pull-left[
+![](https://pbs.twimg.com/profile_images/1118665434994225154/n37llo0c_400x400.png)
+]
+
+.pull-right[
+![](https://rladiesmx.netlify.app/author/r-ladies-mexico/avatar_hu80c8ce06eaadb945a0edcf19f75594eb_166365_270x270_fill_lanczos_center_2.png)
+]
+
+---
+
+## Pre-requisitos
+
+- Paquetes necesarios:
+
+```{r, eval=FALSE}
+install.packages("rmarkdown")
+# pagedown
+remotes::install_github('rstudio/pagedown')
+# devtools
+install.packages("devtools")
+# datadriven package
+devtools::install_github("nstrayer/datadrivencv")
+```
+
+
+---
+
+# ¿Qué es R y RStudio?
+
+
+.pull-left[
+R es un lenguaje de programación enfocado al análisis estadístico y a la generación de gráficas.
+
+RStudio es el _Integrated Development Environment_ (IDE) de R, una aplicación que permite interactuar de manera más eficiente con R y las funcionalidades que le acompañan.
+]
+
+.pull-right[
+
+![](https://d33wubrfki0l68.cloudfront.net/521a038ed009b97bf73eb0a653b1cb7e66645231/8e3fd/assets/img/rstudio-icon.png)
+
+![](https://bookdown.org/kdonovan125/ibis_data_analysis_r4/Interface_script.png)
+]
+
+---
+
+# Ventajas de R y RStudio
+.scrollable[
+.pull-left[
+- R es totalmente gratis
+- R es _open-source_
+     - Usuarios generan paquetes
+
+- Procesamiento de datos sencillo
+    - R está basado en operaciones entre vectores
+    - Se pueden importar datasets de manera sencilla 
+    - Paquetes para manejo de datos: `dplyr`, `purrr`
+
+- Herramientas para visualización de datos
+
+- Herramientas de funcionalidad avanzada que se utilizan comunmente en la comunidad científica
+    - modelaje, análisis de componentes principales, análisis de factores
+
+- Los archivos de salida son fáciles de compartir
+    - Fácil de guardar resultados como tablas, plots, scripts
+    - Git
+    - Reportes en R Markdown
+]
+
+.pull-right[
+![](https://2953482177-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M38c0s4s0YCM6dGwrz1%2F-M7RetZBh2Wf7TnfLhKs%2F-M7RkjP-fqIgI8ZsDmKh%2Ftidyverse2.png?alt=media&token=73bf5842-1ae0-4ca4-8622-ec2ae9063a7a)
+]
+
+]
+
+---
+
+# ¿Qué es R Markdown?
+
+<img height="160px" width="140px" style="position: absolute; bottom: 1; left: 70%; border: 1;" src = "https://bookdown.org/yihui/rmarkdown/images/hex-rmarkdown.png">
+
+Es una herramienta que nos permite :
+
+- guardar y ejecutar código 
+- generar reportes de calidad
+
+
+Puede utilizarse para :
+
+- Literate programming
+  - código y documentación integrada
+- Generar productos
+  - libros, presentaciones
+- Herramientas de control
+  - reproducción de análisis, establecer workflows
+
+
+---
+
+# Tipos de output y Render
+
+- Documentos: HTML, PDF, Word
+- Presentaciones: PowerPoint, Beamer, xaringan
+- Documentos interactivos: [Shiny aps](https://shiny.rstudio.com/), dashboards
+- Sitios web
+- Libros: [bookdown](https://bookdown.org/yihui/rmarkdown/)
+
+
+
+### ¿Qué hace por dentro?
+
+<img src="https://d33wubrfki0l68.cloudfront.net/61d189fd9cdf955058415d3e1b28dd60e1bd7c9b/b739c/lesson-images/rmarkdownflow.png">
+
+---
+
+## Un poco más sobre R Markdown
+
+.container[
+![](https://static.docsity.com/documents_first_pages/2021/04/26/23b257fa542e75c7efbbe7bd96947f70.png)
+]
+
+---
+
+# Pagedown
+
+<img height="160px" width="140px" style="top: 1em; right: 1em; position:absolute;" src = "https://raw.githubusercontent.com/rstudio/hex-stickers/master/SVG/pagedown.svg">
+
+- Instalar paquete:
+
+```{r, eval=FALSE}
+remotes::install_github('rstudio/pagedown')
+```
+
+- Vamos a utilizar: [pagedown::html_resume](https://github.com/rstudio/pagedown#resume-pagedownhtml_resume)
+
+- ¿Dónde? header YAML
+
+```{r, eval=FALSE}
+---
+title: "My CV"
+author: Me
+date: "`r Sys.Date()`"
+params:
+  pdf_mode:
+    value: true
+  output:
+    pagedown::html_resume: #<<
+      css: ['dd_cv.css', 'resume']
+      self_contained: true
+---
+```
+
+---
+
+## ¡Manos a la acción!
+
+- Usaremos el paquete `datadrivencv` creado por Nick Strayer: [link](https://github.com/nstrayer/datadrivencv)
+
+- Instalar paquetes:
+
+```{r, eval=FALSE}
+install.packages("devtools")
+devtools::install_github("nstrayer/datadrivencv")
+```
+
+- [Código modificado para imprimir cv](https://github.com/mpadilla905/mpadilla905.github.io/blob/master/cv_printing_functions.r)
+
+- [Mi tabla de datos para el CV](https://docs.google.com/spreadsheets/d/1gy4_VaGXhYMi8TwakQGk80dWoYfrSY3Wkl4BqVxECNY/edit?usp=sharing)
+
+---
